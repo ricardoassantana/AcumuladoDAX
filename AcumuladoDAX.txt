@@ -1,0 +1,24 @@
+Var. Acumulada = 
+
+VAR DataInicio = 
+CALCULATE(
+        FIRSTDATE(d_Calendario[DataBase])
+        ,ALLSELECTED(d_Calendario))
+
+VAR DataAtual = LASTDATE(d_Calendario[DataBase])
+
+RETURN 
+
+SWITCH(TRUE(),
+        DataInicio = DataAtual,[Var.Mensal],
+            CALCULATE(
+                PRODUCTX(
+                          ALLSELECTED(d_Calendario[DataBase]),
+                          [Var.Mensal]+1
+                ),
+                FILTER(
+                    ALLSELECTED(d_Calendario)
+                    ,d_Calendario[DataBase] <= DataAtual && d_Calendario[DataBase] >= DataInicio
+                )
+            )-1
+)

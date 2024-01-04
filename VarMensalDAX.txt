@@ -1,0 +1,19 @@
+Var.Mensal = 
+
+VAR MesFim = LASTDATE(d_Calendario[DataBase])
+VAR MesInicio = DATEADD(MesFim,-1,MONTH)
+
+VAR CustoMesInicio = 
+    CALCULATE(SUM('Case'[Custo])
+        ,FILTER(ALL(d_Calendario)
+        ,d_Calendario[DataBase] = MesInicio))
+
+VAR CustoMesFim = 
+    CALCULATE(SUM('Case'[Custo])
+        ,FILTER(ALL(d_Calendario)
+        ,d_Calendario[DataBase] = MesFim))
+
+VAR VarMensal = DIVIDE(CustoMesFim,CustoMesInicio,1)-1
+
+RETURN 
+VarMensal
